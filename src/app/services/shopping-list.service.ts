@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Ingredient } from '../components/shared/ingredient.model';
 import { Subject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ShoppingListService {
 
   ];
   
-  constructor() { }
+  constructor(private toastr: ToastrService) { }
 
   getIngredients() {
     return this.ingredients.slice()
@@ -25,15 +26,21 @@ export class ShoppingListService {
   }
   addIngredients(ingredient: Ingredient) {    
     this.ingredients.push(ingredient)
+    this.toastr.success('Ingredients Added Successfully')
+
     this.ingredientsChanged.next(this.ingredients.slice())
   }
   deleteIngredient(index: number) {
     this.ingredients.splice(index,1);
+    this.toastr.error('Ingredients Deleted Successfully')
+
     this.ingredientsChanged.next(this.ingredients.slice())
 
   }
   updateIngredients(index:number,newingredient: Ingredient) {    
     this.ingredients[index] = newingredient
+    this.toastr.success('Ingredients Updated Successfully')
+
     this.ingredientsChanged.next(this.ingredients.slice())
   }
 }

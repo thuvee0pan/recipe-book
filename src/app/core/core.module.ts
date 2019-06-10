@@ -10,6 +10,7 @@ import { RoutingModule } from '../app-routing.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../components/shared/auth.interceptor';
 import { LoggingInterceptor } from '../components/shared/logging.intercetor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -20,11 +21,14 @@ import { LoggingInterceptor } from '../components/shared/logging.intercetor';
   imports: [
     CommonModule,
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    ToastrModule.forRoot() 
   ],
   exports: [
     RoutingModule,
-    HeaderComponent
+    HeaderComponent,
+    ToastrModule
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

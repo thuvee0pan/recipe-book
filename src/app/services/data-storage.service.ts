@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RecipeService } from './recipe.service';
-import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import {map} from 'rxjs/operators'
 import { AuthService } from '../components/auth/auth.service';
 import { Recipe } from '../components/recipes/recipes.model';
@@ -23,17 +23,17 @@ export class DataStorageService {
     //   // headers: httpHeaders
     //   params: new HttpParams().set('auth',tk)
     // })
-    
     const req = new HttpRequest('PUT', this.RecipebaseUrl, this.recipeSer.getRecipes(), {reportProgress: true})
    return  this.http.request(req)
   }
 
   fetchData() {
-     return this.http.get<Recipe[]>(this.RecipebaseUrl)
+    const req = new HttpRequest('GET',this.RecipebaseUrl);
+    //  return this.http.get<Recipe[]>(this.RecipebaseUrl)
+    return this.http.request(req)
       .pipe(map(
-      (res) => { 
-       this.recipeSer.GetRecipeFromDB(res)
-          // console.log(res);
+      (res:HttpResponse<Recipe[]>) => { 
+          return res;
       }
     ))
   }
